@@ -3,21 +3,94 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Vice Cover Studio — GTA 6-style cover art maker</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
+<header class="topbar">
+  <div>
+    <h1>Vice Cover Studio</h1>
+    <p>Turn any photo and a caption into a Vice City sunset cover. Photos never leave your machine.</p>
+  </div>
+  <div class="top-actions">
+    <button id="undoBtn" type="button" title="Undo">Undo</button>
+    <button id="redoBtn" type="button" title="Redo">Redo</button>
+    <button id="exportBtn" type="button" class="primary">Export PNG</button>
+  </div>
+</header>
+
+<main class="layout">
+  <aside class="panel">
+    <section>
+      <h2>Photos</h2>
+      <label class="file-label">Add photos
+        <input id="photoInput" type="file" accept="image/*" multiple>
+      </label>
+      <div class="sample-row" id="sampleRow">
+        <button type="button" data-sample="boulevard">Boulevard sample</button>
+        <button type="button" data-sample="pier">Pier sample</button>
+      </div>
+      <ul class="photo-list" id="photoList"></ul>
+    </section>
+
+    <section>
+      <h2>Layout</h2>
+      <div class="chip-row" id="layoutRow"></div>
+    </section>
+
+    <section>
+      <h2>Colour grade</h2>
+      <div class="chip-row" id="gradeRow"></div>
+    </section>
+
+    <section>
+      <h2>Caption</h2>
+      <label>Title
+        <input id="titleInput" type="text" maxlength="32" value="Midnight Boulevard">
+      </label>
+      <label>Subtitle
+        <input id="subtitleInput" type="text" maxlength="48" value="chasing the neon sunset">
+      </label>
+      <div class="chip-row" id="colorRow">
+        <button type="button" data-color="white" class="active">White</button>
+        <button type="button" data-color="sunset">Sunset</button>
+        <button type="button" data-color="neon">Neon</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Export size</h2>
+      <div class="chip-row" id="sizeRow">
+        <button type="button" data-size="1080x1080" class="active">1080 &times; 1080</button>
+        <button type="button" data-size="1080x1350">1080 &times; 1350</button>
+        <button type="button" data-size="1920x1080">1920 &times; 1080</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Finish</h2>
+      <label class="check"><input id="badgeToggle" type="checkbox" checked> Title badge</label>
+      <label class="check"><input id="grainToggle" type="checkbox" checked> Film grain &amp; vignette</label>
+    </section>
+
+    <section>
+      <h2>Selected panel</h2>
+      <p class="hint">Click a panel in the preview, then drag it to move the photo and scroll to zoom.</p>
+      <label>Photo in panel
+        <select id="panelPhoto"></select>
+      </label>
+      <label>Zoom <input id="zoomRange" type="range" min="1" max="3" step="0.01" value="1"></label>
+      <label>Pan X <input id="panX" type="range" min="-0.5" max="0.5" step="0.01" value="0"></label>
+      <label>Pan Y <input id="panY" type="range" min="-0.5" max="0.5" step="0.01" value="0"></label>
+    </section>
+  </aside>
+
+  <section class="stage-wrap">
+    <canvas id="stage" width="1080" height="1080" aria-label="Cover preview"></canvas>
     <p id="status" role="status"></p>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
 </main>
+
 <script type="module" src="./src/main.js"></script>
 </body>
 </html>
